@@ -32,6 +32,6 @@ def monte_carlo_self_avoiding_proportion(repeated, L):
 repeated = 10000  # Number of Monte Carlo trials
 L = 4  # Length of each walk
 cL=monte_carlo_self_avoiding_proportion(repeated, L) * 4**L
-cL1=monte_carlo_self_avoiding_proportion(repeated, L+1) * 4**L
+cL1=monte_carlo_self_avoiding_proportion(repeated, L+1) * 4**(L+1)
 mu=cL1/cL
 print(f"Estimated mu for L={L}: {mu}")
