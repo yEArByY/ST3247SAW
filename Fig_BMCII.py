@@ -1,5 +1,3 @@
-#@title Click to Expand/Collapse
-
 #4 this basically generates a self avoiding random walk
 import numpy as np
 
@@ -26,34 +24,41 @@ def generate_self_avoiding_walk(L):
     #print(f"Terminating regularly with length {len(visited)}, visited places: {visited}")
     return 1,p,q
 
-mus=[]
-Ls=[]
-smoothing=100
-N=100000
-for L in range(20,500,20):
-  sub_mus=[]
-  for i in range(smoothing):
-    Is,Ps,Qs=generate_self_avoiding_walk(L)
+def rand_walk_estimate(L,N):
+    Is=[]
+    Ps=[]
+    Qs=[]
+    Rs=[]
+    for i in range(N):
+        I,p,q=generate_self_avoiding_walk(L)
+        Is.append(I)
+        Ps.append(p)
+        Qs.append(q)
+    
     Ps = np.array(Ps)
     Qs = np.array(Qs)
 
     Rs = Ps / Qs  # Element-wise division
-
     normalized_weights = Rs #/ np.sum(Rs)
     proportion_estimate = np.mean(np.array(Is) * normalized_weights)
-    cL=proportion_estimate * 4**L
-    targetmu1=cL**(1/L)
-    sub_mus.append(targetmu1)
+
+    return proportion_estimate * 4**L
+
+rand_walk_estimate(8,10000)
 
 
-  targetmu=np.mean(sub_mus)
-
+mus=[]
+Ls=[]
+N = 1000 #number of repeates
+for L in range(10,500,20):
   Ls.append(L)
-  mus.append(targetmu)
+  cL = rand_walk_estimate(L,N)
+  #print(cL)
+  #print(L)
+  #print(cL**(1/L))
+  mus.append(cL**(1/L))
 
 #visualise
 import matplotlib.pyplot as plt
 plt.plot(Ls,mus)
 plt.show()
-
-
