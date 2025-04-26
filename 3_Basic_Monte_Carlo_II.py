@@ -2,7 +2,7 @@
 import numpy as np
 
 def generate_self_avoiding_walk(L):
-    visited = [(0, 0)]  # List to track visited positions (ordered)
+    visited = set([(0, 0)])  # List to track visited positions (ordered)
     x, y = 0, 0  # Start at (0,0)
     p,q=1,1
     for i in range(L):
@@ -16,7 +16,7 @@ def generate_self_avoiding_walk(L):
         # Randomly, uniformly select a valid step
         dx, dy = possible_steps[np.random.randint(len(possible_steps))]
         x, y = x + dx, y + dy  # Update position
-        visited.append((x, y))  # Mark new position as visited
+        visited.add((x, y))  # Mark new position as visited
         p*=1/4
         q*=1/(len(possible_steps))
         #print(q)
