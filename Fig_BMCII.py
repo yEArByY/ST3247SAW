@@ -1,5 +1,6 @@
 #4 this basically generates a self avoiding random walk
 import numpy as np
+import matplotlib.pyplot as plt
 
 def generate_self_avoiding_walk(L):
     visited = [(0, 0)]  # List to track visited positions (ordered)
@@ -59,6 +60,5 @@ for L in range(10,500,20):
   mus.append(cL**(1/L))
 
 #visualise
-import matplotlib.pyplot as plt
 plt.plot(Ls,mus)
 plt.show()
