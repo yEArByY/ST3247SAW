@@ -50,11 +50,12 @@ def random_saw(n):
         visited.add(step)
     return path
 
-def estimate_mu_via_pivot(n=300, n_steps=10000):
+def estimate_mu_via_pivot(n=300, n_steps=10000, burn_in=0.2):
     path = random_saw(n)
     mu_samples = []
+    burn_in_idx = n_steps * burn_in
 
-    for _ in range(n_steps):
+    for i in range(n_steps + int(burn_in_idx)):
         path = pivot_move(path)
 
         # Attempt all possible 1-step extensions
@@ -63,7 +64,9 @@ def estimate_mu_via_pivot(n=300, n_steps=10000):
         valid_extensions = sum(
             (x + dx, y + dy) not in visited for dx, dy in DIRS
         )
-        mu_samples.append(valid_extensions)
+
+        if i >= burn_in_idx:
+            mu_samples.append(valid_extensions)
 
     mu_est = np.mean(mu_samples)
     return mu_est, mu_samples
